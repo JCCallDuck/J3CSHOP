@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>J3C Shop</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.2/css/fontawesome.min.css">
+</head>
+
+<body>
+  <div class="header">
+  <div class="container">
+  <div class="navbar">
+    <div class="logo">
+      <a href="index.html"><img src="Logo.png" width="125px"></a>
+    </div>
+    <nav>
+      <ul id="MenuItems">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="product.html">Products</a></li>
+        <li><a href="account.html">Account</a></li>
+      </ul>
+    </nav>
+ 
+ <img src="cart.png" class="menu-icon">
+ 
+    <img src="menu.png" class="menu-icon" onclick="menutoggle()">
+  </div>
+  
+  
+
+<!-- cart items details -->
+
+<div class="small-container cart-page">
+  <table id="cartTable">
+    <tr>
+      <th>Product</th>
+      <th>Name</th>
+      <th>Price</th>
+      <th>Quantity</th>
+      <th>Remove</th>
+      <th>Total</th>
+    </tr>
+    <!-- JavaScript code will dynamically populate this table based on the cart items -->
+  </table>
+
+  <div class="total-price">
+    <table>
+      <tr>
+        <td>Total</td>
+        <td id="subtotal">₱0</td>
+      </tr>
+      <tr>
+        <td>Shipping Fee</td>
+        <td>₱0:00</td>
+      </tr>
+      <tr>
+        <td>Total</td>
+        <td id="total">₱0</td>
+      </tr>
+    </table>
+  </div>
+  <a href="checkout-page.html"><button onclick="checkout()" class="btn checkout-btn">Checkout</button></a>
+</div>
+
+  
+ 
+
+
+
+
+  <!-----footer----->
+  
+  <div class="footer">
+    <div class="container">
+      <div class="row">
+        <div class="footer-col-1">
+          <h3>DOWNLOAD NOW</h3>
+          <p>NO VIRUS AND STUFF</p>
+          <div class="app-logo">
+            <img src="PlayStore.png">
+            <img src="AppStore.png">
+          </div>
+        </div>
+        <div class="footer-col-2">
+          <img src="J3C.APP.LOGO.png">
+          <p>J3C SHOP APP</p>
+        </div>
+        <div class="footer-col-3">
+          <h3>USEFULL LINKS</h3>
+          <ul>
+          <li>Coupons</li>
+          <li>Blog Post</li>
+          <li>Return Policy</li>
+          <li>Join Affiliate</li>
+          </ul>
+      </div>
+      <div class="footer-col-4">
+        <h3>Follow Us</h3>
+        <ul>
+        <li>Facebook</li>
+        <li>Twitter</li>
+        <li>Instagram</li>
+        <li>YouTube</li>
+        </ul>
+      </div>
+      </div>
+      <hr>
+      <p class="copyright">Copyright 2024 - J3C Shop</p>
+    </div>
+  </div>
+  
+  <!-----js for toggle menu----->
+  <script>
+    var MenuItems = document.getElementById("MenuItems");
+    
+    MenuItems.style.maxHeight = "0px";
+    
+    function menutoggle() {
+      if (MenuItems.style.maxHeight = "0px")
+      {
+        MenuItems.style.maxHeight = "200px";
+      }
+      else
+      {
+        MenuItems.style.maxHeight = "0px";
+      }
+    }
+  </script>
+  
+  <!-- checkout -->
+  <script>
+    // Load and display cart items when the page loads
+    loadCart();
+  
+    function loadCart() {
+      var cart = JSON.parse(localStorage.getItem("cart")) || [];
+      var table = document.getElementById("cartTable");
+  
+      var subtotal = cart.reduce(function(total, item, index) {
+        var productTotal = item.price * item.quantity;
+        var row = table.insertRow(-1);
+        var cell1 = row.insertCell(0);
+        var cell2 = row.insertCell(1);
+        var cell3 = row.insertCell(2);
+        var cell4 = row.insertCell(3);
+        var cell5 = row.insertCell(4);
+        var cell6 = row.insertCell(5);
+  
+        cell1.innerHTML = '<img src="' + item.image + '" width="8%">';
+        cell2.innerHTML = item.name;
+        cell3.innerHTML = "₱" + item.price.toFixed(2);
+        cell4.innerHTML = item.quantity;
+        cell5.innerHTML = '<button onclick="removeItem(' + index + ')" class="btn" >Remove</button>';
+        cell6.innerHTML = "₱" + productTotal.toFixed(2);
+  
+        return total + productTotal;
+      }, 0);
+  
+      document.getElementById("subtotal").innerHTML = "₱" + subtotal.toFixed(2);
+  
+      var total = subtotal + 0; // Add shipping fee (adjust as needed)
+      document.getElementById("total").innerHTML = "₱" + total.toFixed(2);
+    }
+  
+    function removeItem(index) {
+      var cart = JSON.parse(localStorage.getItem("cart")) || [];
+      cart.splice(index, 1); // Remove the item at the specified index
+      localStorage.setItem("cart", JSON.stringify(cart)); // Update the cart in local storage
+      location.reload(); // Reload the page to reflect the changes
+    }
+  </script>
+  <!-- disappear -->
+  <script>
+    // ... (unchanged JavaScript for loading and displaying cart items)
+  
+    // Calculate and display the total
+    var subtotal = cart.reduce(function(total, item) {
+      var productTotal = item.price * item.quantity;
+      var row = table.insertRow(-1);
+      var cell1 = row.insertCell(0);
+      var cell2 = row.insertCell(1);
+      var cell3 = row.insertCell(2);
+      var cell4 = row.insertCell(3);
+  
+      cell1.innerHTML = item.name;
+      cell2.innerHTML = "₱" + item.price.toFixed(2);
+      cell3.innerHTML = item.quantity;
+      cell4.innerHTML = "₱" + productTotal.toFixed(2);
+  
+      return total + productTotal;
+    }, 0);
+  
+    document.getElementById("subtotal").innerHTML = "₱" + subtotal.toFixed(2);
+  
+    var total = subtotal + 100; // Add shipping fee (adjust as needed)
+    document.getElementById("total").innerHTML = "₱" + total.toFixed(2);
+  
+    function checkout() {
+      // Clear the cart in local storage
+      localStorage.removeItem("cart");
+  
+      // Redirect to the checkout page
+      window.location.href = "checkout-page.html";
+    }
+  </script>
+  
+  
+  
+</body>
+
+</html>
